@@ -1,8 +1,8 @@
 <template>
   <section class="section">
-    <a href="#" class="button is-floating is-info">
+    <router-link to="/newrecipe" class="button is-floating is-info">
       <i class="fas fa-plus"></i>
-    </a>
+    </router-link>
     <div class="container">
       <div class="columns is-multiline">
         <div
