@@ -2,20 +2,25 @@
   <section class="section">
     <div class="container">
       <div class="columns is-multiline">
-        <div class="card column is-one-quarter" v-for="item in recipes" :key="item.id">
-          <div class="card-image">
-            <figure class="image is-4by3">
-              <img
-                src="https://bulma.io/images/placeholders/96x96.png"
-                alt="Placeholder image"
-              />
-            </figure>
-          </div>
-          <div class="card-content">
-            <div class="content">
-              {{ item.title }}
+        <div
+          class="column is-one-quarter"
+          v-for="item in recipes"
+          :key="item.id"
+        >
+          <div class="card">
+            <div class="card-image">
+              <figure class="image is-4by5">
+                <img :src="item.imgURL" alt="Title image" />
+              </figure>
             </div>
-            <p>by <a href="https://jgthms.com">{{ item.author }}</a></p>
+            <div class="card-content">
+              <div class="content">
+                {{ item.title }}
+              </div>
+              <p class="is-size-6">
+                от <a href="https://jgthms.com">{{ item.author }}</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -38,6 +43,10 @@ export default {
       data.docs.map(async (doc) => {
         let item = doc.data();
         item.id = doc.id;
+        item.imgURL = await fb.storage
+          .ref()
+          .child("images/" + item.id + "/" + item.img)
+          .getDownloadURL();
         return item;
       })
     );
