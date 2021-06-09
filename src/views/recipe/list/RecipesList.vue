@@ -46,10 +46,12 @@ export default {
       data.docs.map(async (doc) => {
         let item = doc.data();
         item.id = doc.id;
-        item.imgURL = await fb.storage
-          .ref()
-          .child("images/" + item.id + "/" + item.img)
-          .getDownloadURL();
+        if (item.img) {
+          item.imgURL = await fb.storage
+            .ref()
+            .child("images/" + item.id + "/" + item.img)
+            .getDownloadURL();
+        }
         return item;
       })
     );
