@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "bulma": "^0.9.2",
+    "bulma-floating-button": "^1.0.3",
     "core-js": "^3.6.5",
     "firebase": "^8.6.5",
     "vue": "^2.6.11",

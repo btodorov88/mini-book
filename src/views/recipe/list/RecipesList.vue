@@ -1,5 +1,8 @@
 <template>
   <section class="section">
+    <a href="#" class="button is-floating is-info">
+      <i class="fas fa-plus"></i>
+    </a>
     <div class="container">
       <div class="columns is-multiline">
         <div
