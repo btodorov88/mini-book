@@ -13,6 +13,17 @@
     </div>
 
     <div class="field">
+      <label class="label">Съставки</label>
+      <div class="control">
+        <textarea
+          class="textarea"
+          placeholder="Необходими продукти за рецептата"
+          v-model="recipe.ingredients"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="field">
       <label class="label">Рецепта</label>
       <div class="control">
         <textarea
@@ -35,20 +46,6 @@
       </div>
     </div>
 
-    <div class="field">
-      <div class="file">
-        <label class="file-label">
-          <input class="file-input" type="file" name="resume" />
-          <span class="file-cta">
-            <span class="file-icon">
-              <i class="fas fa-upload"></i>
-            </span>
-            <span class="file-label">Изберете снимка</span>
-          </span>
-        </label>
-      </div>
-    </div>
-
     <div class="field is-grouped">
       <div class="control">
         <button class="button is-link" v-on:click="save">Запази</button>
@@ -62,7 +59,7 @@
 
 <script>
 import * as fb from "@/firebase/firebaseConfig";
-import firebase from 'firebase/app';
+import firebase from "firebase/app";
 export default {
   data() {
     return {
@@ -75,8 +72,17 @@ export default {
   },
   methods: {
     async save() {
-      await fb.recipesCollection.add({ ...this.recipe, created: firebase.firestore.Timestamp.fromDate(new Date()) });
-      console.log(this.recipe);
+      //   const file = this.$refs.titleFile.files[0];
+      //   if (file) {
+      //     const data = await new Response(file).text();
+      //     this.processFileContent(data);
+      //   }
+      const res = await fb.recipesCollection.add({
+        ...this.recipe,
+        created: firebase.firestore.Timestamp.fromDate(new Date()),
+      });
+
+      this.$router.push("/recipes/" + res.id);
     },
   },
 };

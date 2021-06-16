@@ -21,6 +21,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/recipe/list/RecipesList')
   },
   {
+    path: '/recipes/:id',
+    name: 'Recipes',
+    component: () => import(/* webpackChunkName: "about" */ '../views/recipe/details/RecipeDetails')
+  },
+  {
     path: '/newrecipe/',
     name: 'New Recipe',
     component: () => import(/* webpackChunkName: "about" */ '../views/recipe/details/RecipeForm')

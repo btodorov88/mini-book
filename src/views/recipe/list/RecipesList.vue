@@ -10,10 +10,11 @@
           v-for="item in recipes"
           :key="item.id"
         >
-          <div class="card">
+          <div class="card" @click="openDetails(item.id)">
             <div class="card-image">
               <figure class="image is-4by5">
-                <img :src="item.imgURL" alt="Title image" />
+                <img v-if="item.imgURL" :src="item.imgURL" alt="Title image" />
+                <img v-else src="https://bulma.io/images/placeholders/1280x960.png" alt="Title image" />
               </figure>
             </div>
             <div class="card-content">
@@ -21,7 +22,7 @@
                 {{ item.title }}
               </div>
               <p class="is-size-6">
-                от <a href="https://jgthms.com">{{ item.author }}</a>
+                от <a href="/">{{ item.author }}</a>
               </p>
             </div>
           </div>
@@ -57,8 +58,13 @@ export default {
     );
     this.recipes = itemsArray;
   },
+  methods: {
+    openDetails(id) {
+      this.$router.push("/recipes/" + id);
+    },
+  },
 };
 </script>
 
-<style>
+<style lang="scss">
 </style>
