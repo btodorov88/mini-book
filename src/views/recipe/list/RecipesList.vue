@@ -10,7 +10,7 @@
           v-for="item in recipes"
           :key="item.id"
         >
-          <div class="card" @click="openDetails(item.id)">
+          <div class="card is-clickable" @click="openDetails(item.id)">
             <div class="card-image">
               <figure class="image is-4by5">
                 <img v-if="item.imgURL" :src="item.imgURL" alt="Title image" />

@@ -8,20 +8,20 @@
             {{ recipe.author }}
           </h2>
           <br />
-          <p>
-            {{ recipe.ingredients}}
-          </p>
+          <p class='is-size-5' style="white-space: pre">{{ recipe.ingredients }}</p>
           <br />
-          <p>
-            {{ recipe.details}}
-          </p>
+          <p class='is-size-6' style="white-space: pre">{{ recipe.details }}</p>
         </section>
       </div>
       <div class="column is-5">
         <section class="section">
           <figure class="image is-4by3">
             <img v-if="recipe.imgURL" :src="recipe.imgURL" alt="Title image" />
-            <img v-else src="https://bulma.io/images/placeholders/1280x960.png" alt="Title image" />
+            <img
+              v-else
+              src="https://bulma.io/images/placeholders/1280x960.png"
+              alt="Title image"
+            />
           </figure>
         </section>
       </div>
