@@ -9,7 +9,9 @@
       :alt="label"
     />
 
-    <div v-show="hover" class="overlay">
+    <loader v-if="loading" />
+
+    <div v-show="hover && !loading" class="overlay">
       <input
         v-show="false"
         ref="uploader"
@@ -28,8 +30,10 @@
 </template>
 
 <script>
+import Loader from './Loader.vue';
 export default {
-  props: ["url", "label"],
+  components: { Loader },
+  props: ["url", "label", "loading"],
   data: function () {
     return {
       hover: false,
