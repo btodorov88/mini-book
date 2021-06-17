@@ -72,11 +72,6 @@ export default {
   },
   methods: {
     async save() {
-      //   const file = this.$refs.titleFile.files[0];
-      //   if (file) {
-      //     const data = await new Response(file).text();
-      //     this.processFileContent(data);
-      //   }
       const res = await fb.recipesCollection.add({
         ...this.recipe,
         created: firebase.firestore.Timestamp.fromDate(new Date()),
