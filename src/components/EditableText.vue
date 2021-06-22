@@ -1,42 +1,46 @@
 <template>
-    <div v-show="editing" class="field has-addons">
-      <div class="control">
-        <input ref="input" class="input" type="text" @keydown.esc="stopEdit" v-model="data" />
-      </div>
-      <div class="control">
-        <button
-          class="button"
-          @click="
-            $emit('update', data);
-            stopEdit();
-          "
-        >
-          <span class="icon">
-            <i class="fas fa-check"></i>
-          </span>
-        </button>
-      </div>
-      <div class="control">
-        <button
-          class="button lightIcon"
-          @click="stopEdit"
-        >
-          <span class="icon">
-            <i class="fas fa-times"></i>
-          </span>
-        </button>
-      </div>
-    </div>
-    <div v-show="!editing" class="level">
-      <div class="level-left titleContainer is-clickable" @click="startEdit">
-        <slot />
-        <div class="mBtnContainer">
-          <span class="icon lightIcon">
-            <i class="fas fa-pen fa-xs"></i>
-          </span>
+  <div class="level">
+    <div v-if="editing" class="level-left">
+      <div class="field has-addons" v-click-outside="stopEdit">
+        <div class="control">
+          <input
+            ref="input"
+            class="input"
+            type="text"
+            @keydown.esc="stopEdit"
+            @keydown.enter="save"
+            v-model="data"
+          />
+        </div>
+        <div class="control">
+          <button class="button" @click="save">
+            <span class="icon">
+              <i class="fas fa-check"></i>
+            </span>
+          </button>
+        </div>
+        <div class="control">
+          <button class="button lightIcon" @click="stopEdit">
+            <span class="icon">
+              <i class="fas fa-times"></i>
+            </span>
+          </button>
         </div>
       </div>
     </div>
+    <div
+      v-else
+      class="level-left titleContainer is-clickable"
+      @click="startEdit"
+    >
+      <slot />
+      <div class="mBtnContainer">
+        <span class="icon lightIcon">
+          <i class="fas fa-pen fa-xs"></i>
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -46,10 +50,13 @@ export default {
     return {
       editing: false,
       data: null,
-      hover: false,
     };
   },
   methods: {
+    save() {
+      this.$emit("update", this.data);
+      this.stopEdit();
+    },
     stopEdit() {
       this.editing = false;
       this.data = this.initialValue;
@@ -57,7 +64,9 @@ export default {
     startEdit() {
       this.editing = true;
       this.data = this.initialValue;
-      this.$refs.input.focus();
+      this.$nextTick(() => {
+        this.$refs.input.focus();
+      });
     },
   },
 };

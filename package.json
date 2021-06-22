@@ -12,7 +12,9 @@
     "bulma-floating-button": "^1.0.3",
     "core-js": "^3.6.5",
     "firebase": "^8.6.5",
+    "v-click-outside": "^3.1.2",
     "vue": "^2.6.11",
+    "vue-fragment": "^1.5.2",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {
