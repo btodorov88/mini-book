@@ -1,15 +1,14 @@
 <template>
-  <fragment>
-    <div v-if="editing" class="field has-addons">
+    <div v-show="editing" class="field has-addons">
       <div class="control">
-        <input class="input" type="text" v-model="data" />
+        <input ref="input" class="input" type="text" @keydown.esc="stopEdit" v-model="data" />
       </div>
       <div class="control">
         <button
           class="button"
           @click="
-            editing = !editing;
             $emit('update', data);
+            stopEdit();
           "
         >
           <span class="icon">
@@ -20,10 +19,7 @@
       <div class="control">
         <button
           class="button lightIcon"
-          @click="
-            editing = !editing;
-            data = initialValue;
-          "
+          @click="stopEdit"
         >
           <span class="icon">
             <i class="fas fa-times"></i>
@@ -31,15 +27,9 @@
         </button>
       </div>
     </div>
-    <div v-else class="level">
-      <div
-        class="level-left titleContainer is-clickable"
-        @click="
-          editing = !editing;
-          data = initialValue;
-        "
-      >
-        <slot/>
+    <div v-show="!editing" class="level">
+      <div class="level-left titleContainer is-clickable" @click="startEdit">
+        <slot />
         <div class="mBtnContainer">
           <span class="icon lightIcon">
             <i class="fas fa-pen fa-xs"></i>
@@ -47,7 +37,6 @@
         </div>
       </div>
     </div>
-  </fragment>
 </template>
 
 <script>
@@ -59,6 +48,17 @@ export default {
       data: null,
       hover: false,
     };
+  },
+  methods: {
+    stopEdit() {
+      this.editing = false;
+      this.data = this.initialValue;
+    },
+    startEdit() {
+      this.editing = true;
+      this.data = this.initialValue;
+      this.$refs.input.focus();
+    },
   },
 };
 </script>
