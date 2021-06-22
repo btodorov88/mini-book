@@ -3,12 +3,24 @@
     <div class="columns">
       <div class="column is-6">
         <section class="section">
-          <editable-text :initialValue="recipe.title" @update="updateTitle"/>
-          <h2 class="subtitle is-4">
-            {{ recipe.author }}
-          </h2>
+          <editable-text
+            :initialValue="recipe.title"
+            @update="updateField('title', ...arguments)"
+          >
+            <h1 class="title is-2">{{ recipe.title }}</h1>
+          </editable-text>
+          <editable-text
+            :initialValue="recipe.author"
+            @update="updateField('author', ...arguments)"
+          >
+            <h2 class="subtitle is-4">
+              {{ recipe.author }}
+            </h2>
+          </editable-text>
           <br />
-          <p class="is-size-5" style="white-space: pre">{{recipe.ingredients}}</p>
+          <p class="is-size-5" style="white-space: pre">
+            {{ recipe.ingredients }}
+          </p>
           <br />
           <p class="is-size-6" style="white-space: pre">{{ recipe.details }}</p>
         </section>
@@ -68,10 +80,10 @@ export default {
           .getDownloadURL();
       }
     },
-    async updateTitle(title) {
+    async updateField(name, value) {
       const id = this.$route.params.id;
-      await fb.recipesCollection.doc(id).update({title});
-      const newRecipe = { ...this.recipe, title };
+      await fb.recipesCollection.doc(id).update({ [name]: value });
+      const newRecipe = { ...this.recipe, [name]: value };
       this.recipe = newRecipe;
     },
     async updateImage(file) {

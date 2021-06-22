@@ -5,14 +5,26 @@
         <input class="input" type="text" v-model="data" />
       </div>
       <div class="control">
-        <button class="button is-primary" @click="editing = !editing; $emit('update', data)">
+        <button
+          class="button"
+          @click="
+            editing = !editing;
+            $emit('update', data);
+          "
+        >
           <span class="icon">
             <i class="fas fa-check"></i>
           </span>
         </button>
       </div>
       <div class="control">
-        <button class="button is-danger" @click="editing = !editing; data=initialValue">
+        <button
+          class="button lightIcon"
+          @click="
+            editing = !editing;
+            data = initialValue;
+          "
+        >
           <span class="icon">
             <i class="fas fa-times"></i>
           </span>
@@ -20,21 +32,18 @@
       </div>
     </div>
     <div v-else class="level">
-      <div class="level-left titleContainer">
-        <h1 v-if="!editing" class="title is-2">{{ initialValue }}</h1>
+      <div
+        class="level-left titleContainer is-clickable"
+        @click="
+          editing = !editing;
+          data = initialValue;
+        "
+      >
+        <slot/>
         <div class="mBtnContainer">
-          <button
-            v-if="!editing"
-            class="button is-small editButton"
-            @click="
-              editing = !editing;
-              data = initialValue;
-            "
-          >
-            <span class="icon">
-              <i class="fas fa-edit"></i>
-            </span>
-          </button>
+          <span class="icon lightIcon">
+            <i class="fas fa-pen fa-xs"></i>
+          </span>
         </div>
       </div>
     </div>
@@ -43,7 +52,7 @@
 
 <script>
 export default {
-  props: ['initialValue'],
+  props: ["initialValue"],
   data() {
     return {
       editing: false,
@@ -64,9 +73,8 @@ export default {
     visibility: visible
 .mBtnContainer
   margin-left: 0.2rem
-  background: lightGrey; 
+  background: lightGrey
   visibility: hidden
-.editButton
-  border: none
-  background: none
+.lightIcon
+  color: grey
 </style>
