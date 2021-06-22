@@ -1,5 +1,5 @@
 <template>
-  <div class="level">
+  <div class="level m-0">
     <div v-if="editing" class="level-left">
       <div class="field has-addons" v-click-outside="stopEdit">
         <div class="control">

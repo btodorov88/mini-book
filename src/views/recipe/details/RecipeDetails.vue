@@ -7,22 +7,22 @@
             :initialValue="recipe.title"
             @update="updateField('title', ...arguments)"
           >
-            <h1 class="title is-2">{{ recipe.title }}</h1>
+            <h1 class="title is-2 mb-1">{{ recipe.title }}</h1>
           </editable-text>
           <editable-text
             :initialValue="recipe.author"
             @update="updateField('author', ...arguments)"
           >
-            <h2 class="subtitle is-4">
+            <h2 class="subtitle is-5">
               {{ recipe.author }}
             </h2>
           </editable-text>
           <br />
-          <p class="is-size-5" style="white-space: pre">
-            {{ recipe.ingredients }}
-          </p>
+          <h5 class="title is-5">Съставки</h5>
+          <p class="is-size-6" style="white-space: pre">{{ recipe.ingredients }}</p>
           <br />
-          <p class="is-size-6" style="white-space: pre">{{ recipe.details }}</p>
+          <h5 class="title is-5">Начин на приготвяне</h5>
+          <p class="is-size-6 has-text-justified" style="white-space: pre">{{ recipe.details }}</p>
         </section>
       </div>
       <div class="column is-5">
