@@ -1,8 +1,6 @@
 <template>
-  <editable-text :initialValue="initialValue" v-on="$listeners">
-    <h2 class="flex-grow subtitle has-text-grey is-5 mb-1">
-      {{ initialValue }}
-    </h2>
+  <editable-text :initialValue="initialValue" :textArea="true" v-on="$listeners">
+    <p class="flex-grow is-size-6 has-text-justified" style="white-space: pre">{{ initialValue }}</p>
   </editable-text>
 </template>
 

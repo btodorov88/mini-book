@@ -1,6 +1,6 @@
 <template>
   <editable-text :initialValue="initialValue" v-on="$listeners">
-    <h1 class="title is-2 mb-1">{{ initialValue }}</h1>
+    <h1 class="flex-grow title is-2 mb-1">{{ initialValue }}</h1>
   </editable-text>
 </template>
 

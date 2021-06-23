@@ -13,10 +13,16 @@
           />
           <br />
           <h5 class="title is-5">Съставки</h5>
-          <p class="is-size-6" style="white-space: pre">{{ recipe.ingredients }}</p>
+          <editable-ingredients
+            :initialValue="recipe.ingredients"
+            @update="updateField('ingredients', ...arguments)"
+          />
           <br />
           <h5 class="title is-5">Начин на приготвяне</h5>
-          <p class="is-size-6 has-text-justified" style="white-space: pre">{{ recipe.details }}</p>
+          <editable-description
+            :initialValue="recipe.details"
+            @update="updateField('details', ...arguments)"
+          />
         </section>
       </div>
       <div class="column is-5">
@@ -38,9 +44,11 @@ import * as fb from "@/firebase/firebaseConfig";
 import EditableImage from "../../../components/EditableImage.vue";
 import EditableSubtitle from "../../../components/editable/EditableSubtitle.vue";
 import EditableTitle from '../../../components/editable/EditableTitle.vue';
+import EditableIngredients from '../../../components/editable/EditableIngredients.vue';
+import EditableDescription from '../../../components/editable/EditableDescription.vue';
 
 export default {
-  components: { EditableImage, EditableSubtitle, EditableTitle },
+  components: { EditableImage, EditableSubtitle, EditableTitle, EditableIngredients, EditableDescription },
   data() {
     return {
       recipe: { title: "" },
