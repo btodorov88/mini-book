@@ -3,20 +3,14 @@
     <div class="columns">
       <div class="column is-6">
         <section class="section">
-          <editable-text
+          <editable-title
             :initialValue="recipe.title"
             @update="updateField('title', ...arguments)"
-          >
-            <h1 class="title is-2 mb-1">{{ recipe.title }}</h1>
-          </editable-text>
-          <editable-text
+          />
+          <editable-subtitle
             :initialValue="recipe.author"
             @update="updateField('author', ...arguments)"
-          >
-            <h2 class="subtitle is-5">
-              {{ recipe.author }}
-            </h2>
-          </editable-text>
+          />
           <br />
           <h5 class="title is-5">Съставки</h5>
           <p class="is-size-6" style="white-space: pre">{{ recipe.ingredients }}</p>
@@ -42,10 +36,11 @@
 <script>
 import * as fb from "@/firebase/firebaseConfig";
 import EditableImage from "../../../components/EditableImage.vue";
-import EditableText from "../../../components/EditableText.vue";
+import EditableSubtitle from "../../../components/editable/EditableSubtitle.vue";
+import EditableTitle from '../../../components/editable/EditableTitle.vue';
 
 export default {
-  components: { EditableImage, EditableText },
+  components: { EditableImage, EditableSubtitle, EditableTitle },
   data() {
     return {
       recipe: { title: "" },
