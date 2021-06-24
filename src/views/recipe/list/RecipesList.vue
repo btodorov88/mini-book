@@ -14,7 +14,11 @@
             <div class="card-image">
               <figure class="image is-4by5">
                 <img v-if="item.imgURL" :src="item.imgURL" alt="Title image" />
-                <img v-else src="https://bulma.io/images/placeholders/1280x960.png" alt="Title image" />
+                <img
+                  v-else
+                  src="https://bulma.io/images/placeholders/1280x960.png"
+                  alt="Title image"
+                />
               </figure>
             </div>
             <div class="card-content">
@@ -47,12 +51,15 @@ export default {
       data.docs.map(async (doc) => {
         let item = doc.data();
         item.id = doc.id;
-        if (item.img) {
-          item.imgURL = await fb.storage
-            .ref()
-            .child("images/" + item.id + "/" + item.img)
-            .getDownloadURL();
-        }
+
+        const firstPage = await fb.storage
+          .ref()
+          .child("images/" + item.id)
+          .list({ maxResults: 1 });
+        const list = firstPage.items;
+
+        if (list.length > 0) item.imgURL = await list[0].getDownloadURL();
+
         return item;
       })
     );
