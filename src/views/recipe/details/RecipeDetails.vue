@@ -27,11 +27,23 @@
       </div>
       <div class="column is-5">
         <section class="section">
-          <editable-image
-            :url="titleImageUrl"
-            @update-image="updateImage"
-            :loading="loadingTitleImage"
+          <gallery :photos="images" />
+          <input
+            v-show="false"
+            ref="uploader"
+            type="file"
+            accept="image/*"
+            @change="onFileChanged"
           />
+          <button
+            class="is-block button mt-3 ml-auto"
+            @click="$refs.uploader.click()"
+          >
+            <span class="icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span>Добавяне на снимка</span>
+          </button>
         </section>
       </div>
     </div>
@@ -41,19 +53,24 @@
 
 <script>
 import * as fb from "@/firebase/firebaseConfig";
-import EditableImage from "../../../components/EditableImage.vue";
 import EditableSubtitle from "../../../components/editable/EditableSubtitle.vue";
-import EditableTitle from '../../../components/editable/EditableTitle.vue';
-import EditableIngredients from '../../../components/editable/EditableIngredients.vue';
-import EditableDescription from '../../../components/editable/EditableDescription.vue';
+import EditableTitle from "../../../components/editable/EditableTitle.vue";
+import EditableIngredients from "../../../components/editable/EditableIngredients.vue";
+import EditableDescription from "../../../components/editable/EditableDescription.vue";
+import Gallery from "../../../components/gallery/Gallery.vue";
 
 export default {
-  components: { EditableImage, EditableSubtitle, EditableTitle, EditableIngredients, EditableDescription },
+  components: {
+    EditableSubtitle,
+    EditableTitle,
+    EditableIngredients,
+    EditableDescription,
+    Gallery,
+  },
   data() {
     return {
       recipe: { title: "" },
-      titleImageUrl: null,
-      loadingTitleImage: true,
+      images: [],
     };
   },
   async created() {
@@ -72,16 +89,15 @@ export default {
       item.id = doc.id;
 
       this.recipe = item;
-      await this.loadTitleImage(item);
-      this.loadingTitleImage = false;
+      await this.loadImages(item);
     },
-    async loadTitleImage(recipe) {
-      if (recipe.img) {
-        this.titleImageUrl = await fb.storage
-          .ref()
-          .child("images/" + recipe.id + "/" + recipe.img)
-          .getDownloadURL();
-      }
+    async loadImages(recipe) {
+      const list = await fb.storage
+        .ref()
+        .child("images/" + recipe.id)
+        .listAll();
+
+      this.images = await Promise.all(list.items.map(async (i) => await i.getDownloadURL()));
     },
     async updateField(name, value) {
       const id = this.$route.params.id;
@@ -89,8 +105,12 @@ export default {
       const newRecipe = { ...this.recipe, [name]: value };
       this.recipe = newRecipe;
     },
-    async updateImage(file) {
-      this.loadingTitleImage = true;
+    async onFileChanged(e) {
+      const file = e.target.files[0];
+      if (!file) {
+        return;
+      }
+
       const data = await new Response(file).blob();
 
       const id = this.$route.params.id;
@@ -99,12 +119,8 @@ export default {
         .ref()
         .child("images/" + id + "/" + file.name)
         .put(data);
-      await fb.recipesCollection.doc(id).update({ img: file.name });
-      const newRecipe = { ...this.recipe, img: file.name };
-      this.recipe = newRecipe;
 
-      await this.loadTitleImage(newRecipe);
-      this.loadingTitleImage = false;
+      this.loadImages(this.recipe);
     },
   },
 };
